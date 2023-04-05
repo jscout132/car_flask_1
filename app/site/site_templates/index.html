@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div id="body" class="container">
+    <div class="container">
+        <h1>Welcome to the car shop</h1>
+        <p>Check out our assortment of cars for sale</p>
+    
+    </div>
+</div>
+<div class="main-img">
+    <img src="../../static/images/pexels-david-mcbee-395537.jpg" class="img-fluid" alt="">
+</div>
+<div class="container">
+    <section class="bg-light">
+        <h3>Need a check up? Our mechanics are here to help</h3>
+        <p>some more content</p>
+        <button class="button" a href="#">Click here to sign in and make and appointment</button>
+    </section>
+</div>
+<div class="container bg-light">
+    <h3>View our available cars</h3>
+    <ul>
+        {% for name in car_names %}
+        <li>
+            {{ name.car_make }} - {{ name.car_model }}
+            ${{ name.cost_ }}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+
+{% endblock %}
