@@ -1,10 +1,73 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section>
-    this is the profile page
+<!-- set up a way for these signed in users to add cars to the car database -->
+<div id="body" class="container"></div>
+<section class="bg-dark text-light text-center shadow mb-20">
+    <div class="container p-5 bg-dark">
+        <div class="row">
+            <div class="d-md-flex bg-dark align-items-center justify-content-evenly">
+                <h1 class="col text-center">{{ current_user.fname.title() }}'s user profile</h1>
+            </div>
+        </div>
+    </div>
 </section>
+<section class="text-center">
+    <div class="container p-10">
+        <div class="row"><br>
+            <h3 class="p-5">Here are your profile details</h3>
+            <ul class="list-group">
+                <li class="list-group-item">Email: {{ current_user.email }}</li>
+                <li class="list-group-item">Token: {{ current_user.token }} </li> 
+            </ul>
+        </div>
+    </div>
+</section>
+<div class="container border mt-3 w-75">
+    <div class="bg-dark">
+        <h3 class="text-light text-center py-3">Your Cars</h3>
+    </div>
+    <div class="bg-light">
 
+    </div>
+    <!-- commented out form to add cars to the database -->
+    <!-- 
+    <section>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <fieldset id="car-type">
+                    {{ form.serial_number.label }}
+                    {{ form.serial_number(placeholder = 'Enter the 3 digit serial number', class = 'mb-3') }}
 
+                    {{ form.car_make.label }}
+                    {{ form.car_make(placeholder = 'Enter the make of the car', class = 'mb-3') }}
+
+                    {{ form.car_model.label }}
+                    {{ form.car_model(placeholder='Enter the model of the car', class = 'mb-3') }}
+                </fieldset>
+                <fieldset id="cost-mileage">
+                    {{ form.cost_.label }}
+                    {{ form.cost_(placeholder='Enter the cost of the car', class = 'mb-3') }}
+
+                    {{ form.mileage.label }}
+                    {{ form.mileage(placeholder='Enter the mileage of the car', class = 'mb-3') }}
+                </fieldset>
+                <fieldset id="year-field">
+                    {{ form.year_.label }}
+                    {{ form.year_(placeholder='Enter the year of the car', class = 'mb-3') }}
+                </fieldset>
+                <fieldset id="color-field">
+                    {{ form.car_color.label }}
+                    {{ form.car_color(placeholder='Enter the color of the car', class = 'mb-3') }}
+                </fieldset>
+                {{ form.submit_button(class = 'btn btn-primary btn-block mt-2', placeholder = 'Submit') }}
+            </div>
+        
+        </form>
+    </section>
+     -->
+
+</div>
 
 {% endblock %}

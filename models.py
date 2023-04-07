@@ -8,6 +8,7 @@ from flask_login import UserMixin
 from flask_login import LoginManager
 from flask_marshmallow import Marshmallow 
 import secrets
+import random
 
 # set variables for class instantiation
 login_manager = LoginManager()
@@ -22,16 +23,17 @@ def load_user(user_id):
 # i might have to make a new table for car info to allow sales people to add cars and actually have
 # some generated ids as primary keys
 class CarInfo(db.Model):
-    __tablename__ = 'car_info'
-    serial_number = db.Column(db.Integer, primary_key=True)
-    car_make = db.Column(db.String(150))
+    serial_number = db.Column(db.String(3), primary_key=True)
+    car_make = db.Column(db.String(150), nullable=True, default='')
     car_model = db.Column(db.String(150))
-    cost_ = db.Column(db.Float)
-    mileage = db.Column(db.Integer)
-    year_ = db.Column(db.Integer)
+    cost_ = db.Column(db.String(20))
+    mileage = db.Column(db.String(20))
+    year_ = db.Column(db.String(20))
     car_color = db.Column(db.String(50))
+    token = db.Column(db.String, db.ForeignKey('user.token'), nullable = False)
 
-    def __init__(self, serial_number, car_make, car_model, cost_, mileage, year_, car_color):
+
+    def __init__(self, serial_number, car_make, car_model, cost_, mileage, year_, car_color, token):
         self.serial_number = serial_number
         self.car_make = car_make
         self.car_model = car_model
@@ -39,6 +41,10 @@ class CarInfo(db.Model):
         self.mileage = mileage
         self.year_ = year_
         self.car_color = car_color
+        self.token = token
+    
+    def __repr__(self):
+        return f'The following car has been added to the database: {self.serial_number, self.car_make}'
 
 
 class User(db.Model, UserMixin):
@@ -80,7 +86,6 @@ class Contact(db.Model):
     email = db.Column(db.String(200))
     phone_number = db.Column(db.String(20))
     address = db.Column(db.String(200))
-
     # this foreign key gets pulled from a different location as in not the class created above
     # i'll have to make sure the naming is consistent if i'm making it so the sales person can add cars
     user_token = db.Column(db.String, db.ForeignKey('user.token'), nullable = False)
@@ -99,10 +104,16 @@ class Contact(db.Model):
     def set_id(self):
         return (secrets.token_urlsafe())
     
-# again, this will be updated with car information
-class ContactSchema(ma.Schema):
+class CarSchema(ma.Schema):
     class Meta:
-        fields = ['id', 'name','email','phone_number', 'address']
+        fields = ['serial_number', 
+                  'car_make',
+                  'car_model',
+                  'cost_', 
+                  'mileage',
+                  'year_',
+                  'car_color',
+                  'token']
 
-contact_schema = ContactSchema()
-contacts_schema = ContactSchema(many=True)
+car_schema = CarSchema()
+cars_schema = CarSchema(many=True)

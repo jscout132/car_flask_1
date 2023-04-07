@@ -6,6 +6,7 @@ import decimal
 from models import User
 
 def token_required(our_flask_function):
+    print('into token required')
     @wraps(our_flask_function)
     def decorated(*args, **kwargs):
         token = None
@@ -18,8 +19,6 @@ def token_required(our_flask_function):
 
         try:
             current_user_token = User.query.filter_by(token = token).first()
-            print(token)
-            print(current_user_token)
         except:
             owner = User.query.filter_by(token = token).first()
 
