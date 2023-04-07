@@ -16,65 +16,35 @@ def home():
 
 @site.route('/profile')
 def profile():
-    current_token = User.query.filter_by(token = 'token').first()
-    print(current_token)
+    cars = CarInfo.query.all()
+
+# attempt to include an add car form on the profile page
+# doesn't currently work
     form = AddCar()
-    try:
-        if request.method == 'POST' and form.validate_on_submit():
-            car_make = form.car_make.data
-            car_model = form.car_color.data
-            cost_ = form.cost_.data
-            mileage = form.mileage.data
-            year_ = form.year_.data
-            car_color = form.car_color.data
-            token = current_token
+    # try:
+    #     if request.method == 'POST' and form.validate_on_submit():
+    #         car_make = form.car_make.data
+    #         car_model = form.car_color.data
+    #         cost_ = form.cost_.data
+    #         mileage = form.mileage.data
+    #         year_ = form.year_.data
+    #         car_color = form.car_color.data
+    #         token = current_token
 
-            car = CarInfo(car_make = car_make, 
-                          car_model = car_model, 
-                          cost_ = cost_, 
-                          mileage = mileage,
-                          year_ = year_,
-                          car_color = car_color)
+    #         car = CarInfo(car_make = car_make, 
+    #                       car_model = car_model, 
+    #                       cost_ = cost_, 
+    #                       mileage = mileage,
+    #                       year_ = year_,
+    #                       car_color = car_color)
 
-            db.session.add(car)
-            db.session.commit()
-            print(car)
+    #         db.session.add(car)
+    #         db.session.commit()
+    #         print(car)
 
-            flash('added a car', 'User-created')
-            return redirect(url_for('site.home'))
-    except:
-        raise Exception('Invalid form data: please check your form')
-    return render_template('profile.html', form = form)
+    #         flash('added a car', 'User-created')
+    #         return redirect(url_for('site.home'))
+    # except:
+    #     raise Exception('Invalid form data: please check your form')
+    return render_template('profile.html', form = form, cars = cars)
 
-
-# @site.route('/add_car', methods = ['GET','POST'])
-# def add_car():
-#     print('into site.route add car function')
-#     form = AddCar()
-#     try:
-#         print('into the try statement')
-#         if request.method == 'POST' and form.validate_on_submit():
-#             print('into the if statement')
-#             car_make = form.car_make.data
-#             car_model = form.car_color.data
-#             cost_ = form.cost_.data
-#             mileage = form.mileage.data
-#             year_ = form.year_.data
-#             car_color = form.car_color.data
-
-#             car = CarInfo(car_make = car_make, 
-#                           car_model = car_model, 
-#                           cost_ = cost_, 
-#                           mileage = mileage,
-#                           year_ = year_,
-#                           car_color = car_color)
-
-#             db.session.add(car)
-#             db.session.commit()
-#             print(car)
-
-#             flash('created a user account', 'User-created')
-#             return redirect(url_for('site.home'))
-#     except:
-#         raise Exception('Invalid form data: please check your form')
-#     return render_template('sign_up.html', form = form)

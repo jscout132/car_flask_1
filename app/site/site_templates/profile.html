@@ -28,9 +28,18 @@
         <h3 class="text-light text-center py-3">Your Cars</h3>
     </div>
     <div class="bg-light">
-
+        <ul>
+            <!-- display the cars the user adds -->
+            {% for car in cars %}
+            <li>
+                {{ car.car_make }} - {{ car.car_model }}
+                {{ car.cost_ }}
+            </li>
+            {% endfor %}
+        </ul>
     </div>
     <!-- commented out form to add cars to the database -->
+    <!-- doesn't currently work come back to this -->
     <!-- 
     <section>
         <form method="POST">

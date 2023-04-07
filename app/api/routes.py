@@ -30,11 +30,11 @@ def add_cars(current_user_token):
 
     db.session.add(new_car)
     db.session.commit()
-
     response = car_schema.dump(new_car)
     return jsonify(response)
 
-@api.route('/car', methods =['GET'])
+# gets all cars with that user token
+@api.route('/cars', methods =['GET'])
 @token_required
 def get_cars(current_user_token):
     user = current_user_token.token
@@ -43,7 +43,15 @@ def get_cars(current_user_token):
     response = cars_schema.dump(cars)
     return jsonify(response)
 
+# gets single car
+@api.route('/single-car/<id>', methods =['GET'])
+@token_required
+def get_car(current_user_token, id):
+    car = CarInfo.query.get(id)
+    response = car_schema.dump(car)
+    return jsonify(response)
 
+# Updating Cars
 @api.route('/car/<id>', methods = ['POST','PUT'])
 @token_required
 def update_car(current_user_token, id):

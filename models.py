@@ -8,7 +8,6 @@ from flask_login import UserMixin
 from flask_login import LoginManager
 from flask_marshmallow import Marshmallow 
 import secrets
-import random
 
 # set variables for class instantiation
 login_manager = LoginManager()
@@ -20,8 +19,6 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 
-# i might have to make a new table for car info to allow sales people to add cars and actually have
-# some generated ids as primary keys
 class CarInfo(db.Model):
     serial_number = db.Column(db.String(3), primary_key=True)
     car_make = db.Column(db.String(150), nullable=True, default='')
@@ -31,7 +28,6 @@ class CarInfo(db.Model):
     year_ = db.Column(db.String(20))
     car_color = db.Column(db.String(50))
     token = db.Column(db.String, db.ForeignKey('user.token'), nullable = False)
-
 
     def __init__(self, serial_number, car_make, car_model, cost_, mileage, year_, car_color, token):
         self.serial_number = serial_number
@@ -78,32 +74,7 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f'User {self.email} has been added to the database'
-
-# this is what i'll base the new car info on to add to the database
-class Contact(db.Model):
-    id = db.Column(db.String, primary_key = True)
-    name = db.Column(db.String(150), nullable = False)
-    email = db.Column(db.String(200))
-    phone_number = db.Column(db.String(20))
-    address = db.Column(db.String(200))
-    # this foreign key gets pulled from a different location as in not the class created above
-    # i'll have to make sure the naming is consistent if i'm making it so the sales person can add cars
-    user_token = db.Column(db.String, db.ForeignKey('user.token'), nullable = False)
-
-    def __init__(self, name, email, phone_number, address, user_token, id = ''):
-        self.id = self.set_id()
-        self.name = name
-        self.email = email
-        self.phone_number = phone_number
-        self.address = address
-        self.user_token = user_token
-
-    def __repr__(self):
-        return f'The following contact has been added to the database: {self.name, self.email}'
-
-    def set_id(self):
-        return (secrets.token_urlsafe())
-    
+   
 class CarSchema(ma.Schema):
     class Meta:
         fields = ['serial_number', 
