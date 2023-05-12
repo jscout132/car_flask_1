@@ -8,7 +8,7 @@ api = Blueprint('api',__name__, url_prefix='/api')
 @api.route('/car', methods = ['POST'])
 @token_required
 def add_cars(current_user_token):
-    serial_number = request.json['serial_number']
+    id = request.json['id']
     car_make = request.json['car_make']
     car_model = request.json['car_model']
     cost_ = request.json['cost_']
@@ -19,7 +19,7 @@ def add_cars(current_user_token):
 
     print(f'testing:{token}')
 
-    new_car = CarInfo(serial_number=serial_number,
+    new_car = CarInfo(id=id,
                       car_make=car_make, 
                       car_model=car_model,
                       cost_=cost_,

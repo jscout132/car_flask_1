@@ -16,7 +16,7 @@ class CreateUser(FlaskForm):
 
 
 class AddCar(FlaskForm):
-    serial_number = StringField('Serial Number', validators=[DataRequired()])
+    id = StringField('Serial Number', validators=[DataRequired()])
     car_make = StringField('Car Make', validators=[DataRequired()])
     car_model = StringField('Car Model', validators=[DataRequired()])
     cost_ = StringField('Car Cost', validators=[DataRequired()])

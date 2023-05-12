@@ -20,7 +20,7 @@ def load_user(user_id):
 
 
 class CarInfo(db.Model):
-    serial_number = db.Column(db.String(3), primary_key=True)
+    id = db.Column(db.String(3), primary_key=True)
     car_make = db.Column(db.String(150), nullable=True, default='')
     car_model = db.Column(db.String(150))
     cost_ = db.Column(db.String(20))
@@ -29,8 +29,8 @@ class CarInfo(db.Model):
     car_color = db.Column(db.String(50))
     token = db.Column(db.String, db.ForeignKey('user.token'), nullable = False)
 
-    def __init__(self, serial_number, car_make, car_model, cost_, mileage, year_, car_color, token):
-        self.serial_number = serial_number
+    def __init__(self, id, car_make, car_model, cost_, mileage, year_, car_color, token):
+        self.id = id
         self.car_make = car_make
         self.car_model = car_model
         self.cost_ = cost_
@@ -40,7 +40,7 @@ class CarInfo(db.Model):
         self.token = token
     
     def __repr__(self):
-        return f'The following car has been added to the database: {self.serial_number, self.car_make}'
+        return f'The following car has been added to the database: {self.id, self.car_make}'
 
 
 class User(db.Model, UserMixin):
@@ -77,7 +77,7 @@ class User(db.Model, UserMixin):
    
 class CarSchema(ma.Schema):
     class Meta:
-        fields = ['serial_number', 
+        fields = ['id', 
                   'car_make',
                   'car_model',
                   'cost_', 
